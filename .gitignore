@@ -48,3 +48,7 @@ desktop.ini
 logs/
 downloads/
 screenshots/
+
+# ── GALAHAD runtime data (database, secrets key, logs, exports) ──
+data/
+.pytest_cache/
