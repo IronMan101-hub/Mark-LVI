@@ -67,6 +67,8 @@ class Orchestrator:
         lines = []
         for c in self.e.registry.catalog():
             params = ", ".join(f"{k}:{v.get('type','string')}{'*' if v.get('required') else ''}" for k, v in c["params"].items())
+            if c["plugin"] == "assistant" and c["command"] == "chat":
+                continue
             lines.append(f"{c['plugin']}.{c['command']}({params}) — {c['description'][:110]}")
         return "\n".join(lines)
 
@@ -108,7 +110,7 @@ class Orchestrator:
     # ── execution ─────────────────────────────────────────────────────
     def _carry_out(self, text: str, plan: dict, origin: str, wait: float) -> dict:
         kind = plan.get("type", "answer")
-        steps = plan.get("steps") or []
+        steps = [s for s in (plan.get("steps") or []) if not (isinstance(s, dict) and s.get("plugin") == "assistant" and s.get("command") == "chat")]
         if kind != "plan" or not steps:
             return {"ok": kind != "clarify", "type": kind, "reply": plan.get("reply") or "Done.", "steps": []}
         try:
