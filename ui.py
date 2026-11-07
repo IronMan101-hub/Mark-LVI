@@ -5703,6 +5703,14 @@ class MainWindow(QMainWindow):
         mem_btn.clicked.connect(self._open_memory_panel)
         lay.addWidget(mem_btn)
 
+        galahad_btn = QPushButton("🛰  GALAHAD DASHBOARD")
+        galahad_btn.setFixedHeight(26)
+        galahad_btn.setFont(QFont("Courier New", 7))
+        galahad_btn.setCursor(Qt.CursorShape.PointingHandCursor)
+        galahad_btn.setStyleSheet(_BTN_STYLE_DIM)
+        galahad_btn.clicked.connect(self._open_galahad_dashboard)
+        lay.addWidget(galahad_btn)
+
         plugin_btn = QPushButton("🧩  PLUGINS")
         plugin_btn.setFixedHeight(26)
         plugin_btn.setFont(QFont("Courier New", 7))
@@ -7045,6 +7053,18 @@ class MainWindow(QMainWindow):
         except Exception as e:
             self._log.append_log(f"ERR: Confirmation failed — {e}")
 
+    def _open_galahad_dashboard(self):
+        # Opens the local command-centre dashboard in the browser (off the Qt thread — it may start the server).
+        import threading
+        def _go():
+            try:
+                from galahad import runtime
+                url = runtime.open_dashboard()
+                self.write_log(f"SYS: GALAHAD dashboard: {url}") if hasattr(self, "write_log") else None
+            except Exception as ex:
+                print(f"[GALAHAD] dashboard: {ex}")
+        threading.Thread(target=_go, daemon=True, name="gal-dash-open").start()
+
     def _open_plugin_manager(self):
         plugins = self.get_plugins() if self.get_plugins else []
         cw = self.centralWidget()
@@ -7255,6 +7275,12 @@ class JarvisUI:
         self._win = MainWindow(face_path)
         self.root = _RootShim(self._app)
         self._win.show()
+        # GALAHAD desktop integration: tray icon, minimise-to-tray, "show" from a second launch.
+        try:
+            from galahad.qt_integration import install as _galahad_install
+            self._galahad_tray = _galahad_install(self._app, self._win, self)
+        except Exception as _e:
+            print(f"[GALAHAD] desktop integration unavailable: {_e}")
 
     @property
     def muted(self) -> bool:

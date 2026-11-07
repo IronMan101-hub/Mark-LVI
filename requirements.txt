@@ -72,6 +72,15 @@ openpyxl                     # excel_writer — spreadsheet output
 youtube-transcript-api       # youtube_video — transcript fetch for summaries
 pygetwindow                  # game_updater, chat_takeover — window geometry
 
+# ── GALAHAD command centre ────────────────────────────────────────────────────
+# Everything GALAHAD needs (requests, beautifulsoup4, psutil, fastapi, uvicorn,
+# cryptography, python-docx, openpyxl, python-pptx, playwright, pyperclip, pyautogui,
+# mss, pillow) is already listed above. The one addition: Windows ships no IANA time-zone
+# database, which the world-clock and time-zone features read through zoneinfo.
+tzdata;     sys_platform == "win32"
+# Optional, not installed by default: pytesseract (offline OCR; also needs the Tesseract
+# binary) · yt-dlp (already above; used for YouTube metadata without an API key).
+
 # ── Windows-only (pip skips these automatically on macOS / Linux) ─────────────
 comtypes;   sys_platform == "win32"
 pycaw;      sys_platform == "win32"
