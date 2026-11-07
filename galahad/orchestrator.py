@@ -78,7 +78,7 @@ class Orchestrator:
             ("\nUSER MEMORY:\n" + mem if mem else "") + "\nTOOLS (* = required):\n" + self.catalog_text()
         history = [m for m in self.e.memory.recent_messages(self.e.settings.get("ai.context_messages", 12) + 1)[:-1]]
         resp = self.e.ai.complete(text, system=system, purpose="assistant", json_mode=True, messages=history,
-                                  max_tokens=1200, origin="orchestrator")
+                                  max_tokens=1200, origin="orchestrator", timeout=30)
         data = parse_json(resp.text)
         if not isinstance(data, dict):
             return {"type": "answer", "reply": resp.text.strip()[:1500], "steps": []}

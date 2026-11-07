@@ -33,6 +33,7 @@ class Engine:
         self.db = Database(db_path)
         self.bus = EventBus()
         self.settings = Settings(self.db, self.bus)
+        self.settings.player = None
         logs.setup(getattr(__import__("logging"), str(self.settings.get("privacy.log_level", "INFO")).upper(), 20))
         self.secrets = SecretStore(self.db)
         self.permissions = PermissionManager(self.db, self.bus)

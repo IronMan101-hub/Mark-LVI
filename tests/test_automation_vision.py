@@ -180,7 +180,7 @@ def test_describe_image_asks_consent_then_sends_bytes_and_audits(full_engine, im
     e = full_engine
     sent = {}
     monkeypatch.setattr(e.ai, "order", lambda purpose: ["openai"])
-    def fake_call(pid, cfg, prompt, system, history, json_mode, max_tokens, temperature, images=()):
+    def fake_call(pid, cfg, prompt, system, history, json_mode, max_tokens, temperature, images=(), timeout=60):
         sent["images"], sent["prompt"] = images, prompt
         return "A white box that says HELLO", 10, 5
     monkeypatch.setattr(e.ai, "_call", fake_call)

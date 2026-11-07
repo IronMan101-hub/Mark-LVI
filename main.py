@@ -684,6 +684,14 @@ class JarvisLive:
             logger=lambda msg: print(f"[Plugins] {msg}"),
             notify=lambda msg: self.ui.write_log(f"SYS: {msg}"),
         )
+        # GALAHAD command centre: one engine per process, shared by the voice tools
+        # (plugins/galahad_*.py), the local dashboard and the tray. Optional — if it
+        # cannot start, MARK LVI runs exactly as before.
+        try:
+            from galahad import runtime as _galahad_runtime
+            _galahad_runtime.attach(player=self.ui, speak=self.plugin_say)
+        except Exception as _e:
+            print(f"[GALAHAD] command centre unavailable: {_e}")
         self.ui.get_plugins = self._plugin_registry.list_for_ui
         self.ui.get_plugin_settings = self._plugin_registry.settings_schemas  # ⚙ settings tab
         self.ui.request_say = self.plugin_say   # plugins: mid-task speech channel
@@ -2690,6 +2698,16 @@ class JarvisLive:
             await asyncio.sleep(delay)
 
 def main():
+    # One JARVIS per user: a second launch just asks the first to show itself.
+    if _sys.modules["os"].environ.get("GALAHAD_ALLOW_MULTI") != "1":
+        try:
+            from galahad import instance as _gi
+            if not _gi.acquire():
+                _gi.poke_existing("show")
+                print("JARVIS is already running — asked it to show its window.")
+                return
+        except Exception as _e:
+            print(f"[GALAHAD] single-instance check skipped: {_e}")
     ui = JarvisUI("face.png")
 
     def runner():

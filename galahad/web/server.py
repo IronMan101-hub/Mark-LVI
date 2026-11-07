@@ -265,7 +265,7 @@ def create_app(eng: Engine, token: str):
             v = eng.settings.set(str(body.get("key")), body.get("value"))
         except (KeyError, ValueError) as e:
             return JSONResponse({"ok": False, "message": str(e)}, status_code=400)
-        msg = ""
+        msg = getattr(eng.settings, "last_note", "") or ""
         if body.get("key") == "startup.start_with_windows":
             from .. import autostart
             msg = autostart.set_enabled(bool(v), bool(eng.settings.get("startup.start_minimised")))
@@ -273,6 +273,11 @@ def create_app(eng: Engine, token: str):
             from .. import autostart
             msg = autostart.set_enabled(True, bool(v))
         return {"ok": True, "value": v, "message": msg}
+
+    @app.get("/api/voice/options")
+    async def voice_options():
+        from .. import legacy_sync
+        return await run_sync(legacy_sync.options)
 
     @app.get("/api/memory")
     async def memory():

@@ -100,7 +100,10 @@ class AIManager:
 
     def is_configured(self, pid: str) -> bool:
         cfg = PROVIDERS[pid]
-        return bool(self.api_key(pid)) or not cfg["needs_key"]
+        if cfg["needs_key"]:
+            return bool(self.api_key(pid))
+        # keyless (local) providers only count once the user has actually pointed GALAHAD at one
+        return bool(self.db.kv_get("ai", f"provider:{pid}"))
 
     def status(self) -> list[dict]:
         out = []
@@ -134,7 +137,7 @@ class AIManager:
     def complete(self, prompt: str, *, system: str = "", purpose: str = "general", json_mode: bool = False,
                  max_tokens: Optional[int] = None, private: bool = False, origin: str = "core",
                  messages: Optional[list] = None, provider: Optional[str] = None,
-                 images: Optional[list] = None) -> AIResponse:
+                 images: Optional[list] = None, timeout: float = 60) -> AIResponse:
         chain = [provider] if provider else self.order(purpose)
         if not chain:
             raise AIError("No AI provider is configured. Add an API key in Plugins → AI Providers "
@@ -148,7 +151,7 @@ class AIManager:
                 text, pt, ct = self._call(pid, cfg, prompt, system, history, json_mode,
                                           max_tokens or cfg["settings"].get("max_tokens") or self.settings.get("ai.max_tokens"),
                                           cfg["settings"].get("temperature") if cfg["settings"].get("temperature") is not None
-                                          else self.settings.get("ai.temperature"), images or [])
+                                          else self.settings.get("ai.temperature"), images or [], timeout)
                 self._record(pid, cfg["model"], purpose, pt, ct, True)
                 if private:
                     self._audit_private(pid, cfg["model"], origin, len(prompt))
@@ -197,13 +200,12 @@ class AIManager:
                         "VALUES(?,?,?,?,?,?,?)", (pid, model, purpose, pt, ct, int(ok), time.time()))
 
     # ── adapters ──────────────────────────────────────────────────────
-    def _call(self, pid, cfg, prompt, system, history, json_mode, max_tokens, temperature, images=()):
+    def _call(self, pid, cfg, prompt, system, history, json_mode, max_tokens, temperature, images=(), timeout=60):
         key = self.api_key(pid)
         kind = cfg["kind"]
         base = cfg["base_url"].rstrip("/")
         max_tokens = int(max_tokens or 1024)
         temperature = float(temperature if temperature is not None else 0.4)
-        timeout = 60
         if kind == "openai":
             msgs = ([{"role": "system", "content": system}] if system else []) + \
                    [{"role": m["role"] if m["role"] in ("user", "assistant") else "user", "content": m["content"]} for m in history] + \

@@ -17,6 +17,7 @@ def attach(player=None, speak: Optional[Callable[[str], None]] = None, start_das
     """Start the engine in this process and connect it to the host's UI/voice."""
     eng = get_engine()
     eng.player = player
+    eng.settings.player = player
     for ent in eng.registry.entries.values():
         if ent.ctx is not None:
             ent.ctx.player = player

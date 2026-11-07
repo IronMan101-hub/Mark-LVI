@@ -5,6 +5,7 @@ import json
 import time
 from typing import Any
 
+from . import legacy_sync
 from .db import Database
 from .events import EventBus
 
@@ -90,6 +91,10 @@ class Settings:
         self.db, self.bus = db, bus
 
     def get(self, key: str, default: Any = None) -> Any:
+        if key in legacy_sync.MAPPED:                  # voice settings live in MARK LVI's own config
+            found, val = legacy_sync.read(key)
+            if found:
+                return val
         row = self.db.one("SELECT value FROM settings WHERE key=?", (key,))
         if row is not None:
             try:
@@ -113,6 +118,9 @@ class Settings:
             raise ValueError("listening_mode must be wake_word, push_to_talk or continuous")
         if key == "dashboard.port" and not (1024 <= value <= 65535):
             raise ValueError("port must be 1024-65535")
+        self.last_note = ""
+        if key in legacy_sync.MAPPED:
+            self.last_note = legacy_sync.write(key, value, getattr(self, "player", None))
         self.db.execute(
             "INSERT INTO settings(key,value,updated) VALUES(?,?,?) "
             "ON CONFLICT(key) DO UPDATE SET value=excluded.value, updated=excluded.updated",
