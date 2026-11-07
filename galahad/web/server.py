@@ -99,7 +99,7 @@ def create_app(eng: Engine, token: str):
         st["voice"] = voice_state()
         st["active_runs"] = [r for r in eng.workflows.runs(10) if r["status"] in ("running", "awaiting_confirmation")]
         st["settings"] = {k: eng.settings.get(k) for k in ("appearance.theme", "appearance.accent", "appearance.background", "appearance.transparency",
-                                                           "appearance.animations", "general.app_name", "appearance.layout", "general.date_format", "general.time_format")}
+                                                           "appearance.animations", "general.app_name", "appearance.layout", "general.clock_24h", "general.language")}
         return st
 
     def voice_state() -> dict:

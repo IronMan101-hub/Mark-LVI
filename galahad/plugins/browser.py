@@ -62,12 +62,18 @@ class Browser(Plugin):
                    "manages tabs in that window (it uses its own browser profile — sign in to sites there once).")
 
     def health(self):
-        exe = find_browser(self.ctx.config.get("browser"), self.ctx.config.get("executable") or "")
+        exe = self._exe()
         if not exe:
             return Health("degraded", "No Edge/Chrome/Firefox found; reading pages still works.")
         return Health("ok", f"Browser: {Path(exe).name}; tab control {'online' if self._tabs_online() else 'not started'}")
 
     # ── helpers ───────────────────────────────────────────────────────
+    def _exe(self):
+        pref = self.ctx.config.get("browser") or "auto"
+        if pref == "auto":
+            pref = self.ctx.setting("general.default_browser", "") or "auto"      # Settings → General → default browser
+        return find_browser(pref, self.ctx.config.get("executable") or "")
+
     @property
     def port(self) -> int:
         return int(self.ctx.config.get("debug_port") or 9222)
@@ -171,7 +177,7 @@ class Browser(Plugin):
         if self._tabs_online():
             self._cdp("PUT", "/json/new?" + urllib.parse.quote(u, safe=":/?&=%#"))
             return {"message": f"Opened {u} in the controlled browser.", "data": {"url": u}}
-        exe = find_browser(self.ctx.config.get("browser"), self.ctx.config.get("executable") or "")
+        exe = self._exe()
         if exe and "firefox" not in exe.lower():
             subprocess.Popen([exe, "--new-window", u] if new_window else [exe, u], stdout=subprocess.DEVNULL,
                              stderr=subprocess.DEVNULL, start_new_session=True)
@@ -329,7 +335,7 @@ class Browser(Plugin):
     def start_controlled_browser(self, headless=False):
         if self._tabs_online():
             return {"message": "Tab control is already running.", "data": {"port": self.port}}
-        exe = find_browser(self.ctx.config.get("browser"), self.ctx.config.get("executable") or "")
+        exe = self._exe()
         if not exe or "firefox" in exe.lower():
             raise PluginError("Tab control needs Microsoft Edge or Chrome/Chromium, and I couldn't find one. Set the executable in the plugin settings.")
         prof = paths.home() / "browser-profile"

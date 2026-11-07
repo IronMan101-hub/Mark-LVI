@@ -19,7 +19,8 @@ function h(tag, attrs, ...kids) {
   return el;
 }
 const clear = (el) => { while (el.firstChild) el.removeChild(el.firstChild); return el; };
-const fmtTs = (t, o) => t ? new Date(t * 1000).toLocaleString([], o || { weekday: 'short', day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }) : '';
+const h12 = () => (S.status && S.status.settings['general.clock_24h']) ? { hour12: false } : {};
+const fmtTs = (t, o) => t ? new Date(t * 1000).toLocaleString([], Object.assign({}, o || { weekday: 'short', day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }, h12())) : '';
 const fmtBytes = (n) => { n = Number(n) || 0; const u = ['B', 'KB', 'MB', 'GB', 'TB']; let i = 0; while (n >= 1024 && i < 4) { n /= 1024; i++; } return (i ? n.toFixed(1) : n) + ' ' + u[i]; };
 const fmtDur = (s) => { s = Math.floor(s); const d = Math.floor(s / 86400), hr = Math.floor(s % 86400 / 3600), m = Math.floor(s % 3600 / 60); return (d ? d + 'd ' : '') + (hr || d ? hr + 'h ' : '') + m + 'm'; };
 const ago = (t) => { const s = Date.now() / 1000 - t; return s < 60 ? 'just now' : s < 3600 ? Math.floor(s / 60) + ' min ago' : s < 86400 ? Math.floor(s / 3600) + ' h ago' : Math.floor(s / 86400) + ' d ago'; };
@@ -137,7 +138,7 @@ async function doSearch(q, box) {
 }
 function tickClock() {
   const el = $('#clock'); if (!el) return;
-  el.textContent = new Date().toLocaleString([], { weekday: 'short', day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' });
+  el.textContent = new Date().toLocaleString([], Object.assign({ weekday: 'short', day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }, h12()));
 }
 
 function applyAppearance(st) {
@@ -213,7 +214,7 @@ VIEWS.home = (root, ctx) => {
   }
   function fill() {
     const now = new Date(), hr = now.getHours(), greet = hr < 12 ? 'Good morning' : hr < 18 ? 'Good afternoon' : 'Good evening';
-    clear(clockBody).append(h('div', { class: 'big' }, now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })), h('div', { class: 'sub' }, now.toLocaleDateString([], { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })), h('div', { style: { marginTop: '8px' } }, greet + '.'));
+    clear(clockBody).append(h('div', { class: 'big' }, now.toLocaleTimeString([], Object.assign({ hour: '2-digit', minute: '2-digit' }, h12()))), h('div', { class: 'sub' }, now.toLocaleDateString([], { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })), h('div', { style: { marginTop: '8px' } }, greet + '.'));
     clear(asstBody).append(h('div', { class: 'col' }, kv({ Provider: S.status ? `${S.status.ai.provider} · ${S.status.ai.model || 'default'}` : '', Mode: S.status && S.status.ai.configured ? 'AI planning' : 'Offline command router', Voice: S.status && S.status.voice.available ? ('desktop app connected · ' + S.status.voice.mode) : 'no desktop voice session in this process', 'Active runs': S.status ? S.status.active_runs.length : 0 }), h('button', { onclick: () => { location.hash = '#/assistant'; } }, 'Open assistant')));
   }
   build();

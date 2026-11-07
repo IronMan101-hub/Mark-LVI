@@ -13,11 +13,9 @@ from .events import EventBus
 DEFAULTS: dict[str, tuple[Any, str, str]] = {
     "general.app_name": ("GALAHAD", "str", "Application name"),
     "general.language": ("en", "str", "Interface language"),
-    "general.date_format": ("%d %b %Y", "str", "Date format (strftime)"),
-    "general.time_format": ("%H:%M", "str", "Time format (strftime)"),
+    "general.clock_24h": (False, "bool", "Show times in 24-hour format"),
     "general.timezone": ("", "str", "IANA timezone, blank = system"),
     "general.default_browser": ("", "str", "Default browser (edge, chrome, firefox or blank)"),
-    "general.default_editor": ("", "str", "Default document application"),
     "startup.start_with_windows": (False, "bool", "Start GALAHAD when Windows starts"),
     "startup.start_minimised": (False, "bool", "Start minimised to tray"),
     "startup.minimise_to_tray": (True, "bool", "Closing the window keeps GALAHAD running"),

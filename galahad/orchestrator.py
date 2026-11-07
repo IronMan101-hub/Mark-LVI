@@ -74,7 +74,9 @@ class Orchestrator:
 
     def _plan_with_ai(self, text: str) -> dict:
         mem = self.e.memory.prompt_block()
+        lang = str(self.e.settings.get("general.language", "en") or "en")
         system = SYSTEM_PROMPT % (MAX_STEPS, datetime.now().strftime("%A %d %B %Y %H:%M")) + \
+            (f"\nWrite the \"reply\" text in this language code: {lang}." if lang != "en" else "") + \
             ("\nUSER MEMORY:\n" + mem if mem else "") + "\nTOOLS (* = required):\n" + self.catalog_text()
         history = [m for m in self.e.memory.recent_messages(self.e.settings.get("ai.context_messages", 12) + 1)[:-1]]
         resp = self.e.ai.complete(text, system=system, purpose="assistant", json_mode=True, messages=history,

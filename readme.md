@@ -7,6 +7,30 @@ A real-time voice AI that can hear, see, speak, and control your computer — on
 
 ---
 
+## 🛰 GALAHAD — the command centre (new)
+
+This fork evolves MARK LVI into **GALAHAD**: JARVIS (voice + chat assistant) plus a local **dashboard** with 13 sections, backed by 22
+independent plugins (computer control, browser, Spotify, YouTube, Gmail, WhatsApp, Instagram, Word, Excel, PowerPoint, tasks &
+reminders, automation workflows, vision, news, deep research, finance, unified search, utilities, AI providers…), a SQLite data layer,
+a permission/confirmation system, encrypted credential storage, a tray icon and background operation. **Every MARK LVI feature is
+preserved**; GALAHAD loads beside it and is optional (if it cannot start, MARK LVI runs as before).
+
+| Read | |
+|---|---|
+| [`docs/INSTALL.md`](docs/INSTALL.md) | run modes, dashboard, tests |
+| [`docs/CONFIGURATION.md`](docs/CONFIGURATION.md) | AI providers, API keys you must supply, privacy controls |
+| [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) | layers, the single execution pipeline, data model, isolation limits |
+| [`docs/PLUGIN_DEVELOPMENT.md`](docs/PLUGIN_DEVELOPMENT.md) | writing and testing a plugin |
+| [`docs/TROUBLESHOOTING.md`](docs/TROUBLESHOOTING.md) | symptoms → fixes, what GALAHAD refuses to do |
+| [`docs/COMPLETION_REPORT.md`](docs/COMPLETION_REPORT.md) | per-feature status and test evidence — **read this for what is and isn't verified** |
+
+```bash
+python main.py                  # desktop app + tray + dashboard       python -m galahad serve   # headless
+python -m galahad doctor        # diagnose                              python -m pytest tests -q # 141 tests
+```
+
+---
+
 ## ✨ Overview
 
 Mark LV gave the assistant a screen. **Mark LVI lets you choose what runs it.**
