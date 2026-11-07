@@ -48,7 +48,7 @@ DEFAULTS: dict[str, tuple[Any, str, str]] = {
     "appearance.background": ("", "str", "CSS background (colour or image URL)"),
     "appearance.transparency": (0.85, "float", "Panel opacity 0.3-1.0"),
     "appearance.animations": (True, "bool", "Enable animations"),
-    "appearance.layout": ({"home": ["clock", "weather", "system", "tasks", "reminders", "news", "notifications", "quick"]},
+    "appearance.layout": ({"home": ["clock", "weather", "system", "tasks", "reminders", "news", "notifications", "assistant", "quick"]},
                           "dict", "Dashboard widget layout"),
     "notifications.min_priority": (0, "int", "Hide notifications below this priority"),
     "notifications.voice": (True, "bool", "Speak reminder/alert notifications"),

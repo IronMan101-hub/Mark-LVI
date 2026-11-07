@@ -549,6 +549,8 @@ class Registry:
         if spec.confirm:
             try:
                 summary = spec.confirm(clean) if callable(spec.confirm) else spec.confirm.format(**clean)
+            except PluginError as e:          # e.g. the target doesn't exist — refuse before bothering the user
+                return self._refuse(label, plugin_id, command_name, str(e), origin, args, run_id)
             except Exception:
                 summary = f"{ent.manifest.name}: {command_name}"
         if summary:

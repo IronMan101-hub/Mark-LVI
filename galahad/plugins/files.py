@@ -69,6 +69,10 @@ class Files(Plugin):
         permissions=["fs.read", "fs.write", "fs.delete", "fs.scan"], optional_python=["send2trash"],
         config_schema=[{"key": "extra_roots", "label": "Extra folders to search (comma separated)", "type": "string", "default": ""}])
 
+    def initialize(self, ctx):
+        super().initialize(ctx)
+        Files._instance = self
+
     def health(self):
         return Health("ok", "recoverable delete via send2trash" if _has("send2trash") else
                       "send2trash not installed: delete moves files to a local .galahad-trash folder instead")
@@ -266,9 +270,23 @@ class Files(Plugin):
         return {"ok": dst.exists(), "message": f"Copied to {dst}" if dst.exists() else "The copy did not complete.", "data": {"path": str(dst)}}
 
     # ── delete ────────────────────────────────────────────────────────
+    _instance = None
+
+    @staticmethod
+    def _delete_summary(a: dict) -> str:
+        """Validated BEFORE the user is asked: no prompt for something that can't be deleted."""
+        inst = Files._instance
+        p = inst._path(a["path"]) if inst else Path(a["path"])
+        if not p.exists():
+            raise PluginError(f"'{a['path']}' doesn't exist.")
+        if reason := protected_path(p):
+            raise PluginError(f"I won't delete that: {reason}.")
+        kind = "folder (and everything in it)" if p.is_dir() else "file"
+        return f"Move the {kind} '{p}' to the Recycle Bin?"
+
     @command(description="Delete a file or folder (goes to the Recycle Bin / trash so it can be restored). Always asks first.",
              permissions=("fs.delete",), destructive=True, params={"path": {"type": "string", "required": True}},
-             confirm=lambda a: f"Move '{a['path']}' to the Recycle Bin?")
+             confirm=lambda a: Files._delete_summary(a))
     def delete(self, path):
         p = self._path(path)
         if not p.exists():

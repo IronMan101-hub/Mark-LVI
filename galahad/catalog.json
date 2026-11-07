@@ -1,0 +1,2689 @@
+{
+ "ai_providers": [
+  {
+   "command": "ask",
+   "description": "Ask the selected AI provider a question directly.",
+   "params": {
+    "prompt": {
+     "required": true
+    }
+   },
+   "plugin": "ai_providers"
+  },
+  {
+   "command": "configure",
+   "description": "Store a provider's API key / model / endpoint / sampling settings",
+   "params": {
+    "api_key": {
+     "required": false
+    },
+    "base_url": {
+     "required": false
+    },
+    "max_tokens": {
+     "required": false
+    },
+    "model": {
+     "required": false
+    },
+    "provider": {
+     "required": true
+    },
+    "temperature": {
+     "required": false
+    }
+   },
+   "plugin": "ai_providers"
+  },
+  {
+   "command": "list_providers",
+   "description": "List providers with their model, configuration state and which is active.",
+   "params": {},
+   "plugin": "ai_providers"
+  },
+  {
+   "command": "select",
+   "description": "Choose the provider/model for conversation, an ordered fallback list, and per-purpose overrides (purposes: ass",
+   "params": {
+    "fallbacks": {
+     "required": false
+    },
+    "model": {
+     "required": false
+    },
+    "provider": {
+     "required": false
+    },
+    "purpose": {
+     "required": false
+    },
+    "purpose_provider": {
+     "required": false
+    }
+   },
+   "plugin": "ai_providers"
+  },
+  {
+   "command": "test_connection",
+   "description": "Test a provider connection with a tiny request.",
+   "params": {
+    "provider": {
+     "required": true
+    }
+   },
+   "plugin": "ai_providers"
+  },
+  {
+   "command": "usage",
+   "description": "Token and call usage by provider/model for the last N days.",
+   "params": {
+    "days": {
+     "required": false
+    }
+   },
+   "plugin": "ai_providers"
+  }
+ ],
+ "assistant": [
+  {
+   "command": "capabilities",
+   "description": "What can GALAHAD do? Lists active plugins and their commands.",
+   "params": {},
+   "plugin": "assistant"
+  },
+  {
+   "command": "chat",
+   "description": "Handle a free-form request: answer it, or plan and run the needed tool steps.",
+   "params": {
+    "message": {
+     "required": true
+    }
+   },
+   "plugin": "assistant"
+  },
+  {
+   "command": "forget",
+   "description": "Delete one saved memory by key.",
+   "params": {
+    "key": {
+     "required": true
+    }
+   },
+   "plugin": "assistant"
+  },
+  {
+   "command": "mark_notifications_read",
+   "description": "Mark all notifications read.",
+   "params": {},
+   "plugin": "assistant"
+  },
+  {
+   "command": "notifications",
+   "description": "Show notifications.",
+   "params": {
+    "category": {
+     "required": false
+    },
+    "unread_only": {
+     "required": false
+    }
+   },
+   "plugin": "assistant"
+  },
+  {
+   "command": "recall",
+   "description": "Look up saved memories.",
+   "params": {
+    "query": {
+     "required": false
+    }
+   },
+   "plugin": "assistant"
+  },
+  {
+   "command": "recent_activity",
+   "description": "What GALAHAD has recently done (from the activity log).",
+   "params": {
+    "limit": {
+     "required": false
+    }
+   },
+   "plugin": "assistant"
+  },
+  {
+   "command": "remember",
+   "description": "Save something about the user for later (preferences, facts they asked you to remember).",
+   "params": {
+    "category": {
+     "required": false
+    },
+    "key": {
+     "required": true
+    },
+    "value": {
+     "required": true
+    }
+   },
+   "plugin": "assistant"
+  }
+ ],
+ "automation": [
+  {
+   "command": "cancel",
+   "description": "Cancel a running workflow.",
+   "params": {
+    "run_id": {
+     "required": true
+    }
+   },
+   "plugin": "automation"
+  },
+  {
+   "command": "create_from_text",
+   "description": "Create a workflow from a plain-English description (AI plans the steps; you can inspect them afterwards).",
+   "params": {
+    "name": {
+     "required": true
+    },
+    "request": {
+     "required": true
+    },
+    "trigger": {
+     "required": false
+    }
+   },
+   "plugin": "automation"
+  },
+  {
+   "command": "delete",
+   "description": "Delete a workflow.",
+   "params": {
+    "workflow": {
+     "required": true
+    }
+   },
+   "plugin": "automation"
+  },
+  {
+   "command": "history",
+   "description": "Recent workflow runs.",
+   "params": {
+    "limit": {
+     "required": false
+    },
+    "workflow": {
+     "required": false
+    }
+   },
+   "plugin": "automation"
+  },
+  {
+   "command": "list",
+   "description": "List workflows.",
+   "params": {},
+   "plugin": "automation"
+  },
+  {
+   "command": "plan",
+   "description": "Turn a plain-English request into a step plan WITHOUT running it (preview)",
+   "params": {
+    "request": {
+     "required": true
+    }
+   },
+   "plugin": "automation"
+  },
+  {
+   "command": "run",
+   "description": "Run a workflow now (by name or id)",
+   "params": {
+    "workflow": {
+     "required": true
+    }
+   },
+   "plugin": "automation"
+  },
+  {
+   "command": "save",
+   "description": "Save a workflow",
+   "params": {
+    "description": {
+     "required": false
+    },
+    "enabled": {
+     "required": false
+    },
+    "id": {
+     "required": false
+    },
+    "name": {
+     "required": true
+    },
+    "steps": {
+     "required": true
+    },
+    "trigger": {
+     "required": false
+    }
+   },
+   "plugin": "automation"
+  },
+  {
+   "command": "set_enabled",
+   "description": "Enable or disable a workflow's trigger.",
+   "params": {
+    "enabled": {
+     "required": true
+    },
+    "workflow": {
+     "required": true
+    }
+   },
+   "plugin": "automation"
+  },
+  {
+   "command": "show",
+   "description": "Show one workflow with its steps.",
+   "params": {
+    "workflow": {
+     "required": true
+    }
+   },
+   "plugin": "automation"
+  },
+  {
+   "command": "status",
+   "description": "Status and per-step progress of a run.",
+   "params": {
+    "run_id": {
+     "required": true
+    }
+   },
+   "plugin": "automation"
+  }
+ ],
+ "browser": [
+  {
+   "command": "ask_page",
+   "description": "Answer a question using the content of one page (url) or the open tab.",
+   "params": {
+    "question": {
+     "required": true
+    },
+    "tab": {
+     "required": false
+    },
+    "url": {
+     "required": false
+    }
+   },
+   "plugin": "browser"
+  },
+  {
+   "command": "close_tab",
+   "description": "Close a tab by number or part of its title.",
+   "params": {
+    "index": {
+     "required": false
+    },
+    "title": {
+     "required": false
+    }
+   },
+   "plugin": "browser"
+  },
+  {
+   "command": "compare_pages",
+   "description": "Compare what several pages say (2\u20135 urls), optionally about a focus topic.",
+   "params": {
+    "focus": {
+     "required": false
+    },
+    "urls": {
+     "required": true
+    }
+   },
+   "plugin": "browser"
+  },
+  {
+   "command": "find_in_page",
+   "description": "Find a word/phrase in a page (or the open tab) and show surrounding text.",
+   "params": {
+    "tab": {
+     "required": false
+    },
+    "term": {
+     "required": true
+    },
+    "url": {
+     "required": false
+    }
+   },
+   "plugin": "browser"
+  },
+  {
+   "command": "find_in_tabs",
+   "description": "Search the text of every open (controlled) tab for a term.",
+   "params": {
+    "query": {
+     "required": true
+    }
+   },
+   "plugin": "browser"
+  },
+  {
+   "command": "navigate",
+   "description": "Navigate the current tab: back, forward or reload.",
+   "params": {
+    "action": {
+     "required": true
+    }
+   },
+   "plugin": "browser"
+  },
+  {
+   "command": "new_tab",
+   "description": "Open a new tab.",
+   "params": {
+    "url": {
+     "required": false
+    }
+   },
+   "plugin": "browser"
+  },
+  {
+   "command": "open_url",
+   "description": "Open a web address in the browser.",
+   "params": {
+    "new_window": {
+     "required": false
+    },
+    "url": {
+     "required": true
+    }
+   },
+   "plugin": "browser"
+  },
+  {
+   "command": "page_info",
+   "description": "Title, address and text excerpt of the current (or numbered) tab.",
+   "params": {
+    "max_chars": {
+     "required": false
+    },
+    "tab": {
+     "required": false
+    }
+   },
+   "plugin": "browser"
+  },
+  {
+   "command": "read_page",
+   "description": "Read a web page and return its title and main text excerpt.",
+   "params": {
+    "max_chars": {
+     "required": false
+    },
+    "url": {
+     "required": true
+    }
+   },
+   "plugin": "browser"
+  },
+  {
+   "command": "search_web",
+   "description": "Search the web and open the results page in the browser.",
+   "params": {
+    "engine": {
+     "required": false
+    },
+    "query": {
+     "required": true
+    }
+   },
+   "plugin": "browser"
+  },
+  {
+   "command": "start_controlled_browser",
+   "description": "Start Edge/Chrome with GALAHAD tab control enabled (own profile, DevTools on localhost only).",
+   "params": {
+    "headless": {
+     "required": false
+    }
+   },
+   "plugin": "browser"
+  },
+  {
+   "command": "summarise_page",
+   "description": "Summarise a web page",
+   "params": {
+    "sentences": {
+     "required": false
+    },
+    "tab": {
+     "required": false
+    },
+    "url": {
+     "required": false
+    }
+   },
+   "plugin": "browser"
+  },
+  {
+   "command": "switch_tab",
+   "description": "Bring a tab to the front by number or part of its title.",
+   "params": {
+    "index": {
+     "required": false
+    },
+    "title": {
+     "required": false
+    }
+   },
+   "plugin": "browser"
+  },
+  {
+   "command": "tabs",
+   "description": "List open tabs (title and address).",
+   "params": {},
+   "plugin": "browser"
+  },
+  {
+   "command": "web_results",
+   "description": "Search the web and return the top results (title, link, snippet) without opening a browser.",
+   "params": {
+    "limit": {
+     "required": false
+    },
+    "query": {
+     "required": true
+    }
+   },
+   "plugin": "browser"
+  }
+ ],
+ "computer": [
+  {
+   "command": "brightness",
+   "description": "Get or set screen brightness (laptop/internal displays).",
+   "params": {
+    "action": {
+     "required": true
+    },
+    "level": {
+     "required": false
+    }
+   },
+   "plugin": "computer"
+  },
+  {
+   "command": "clipboard",
+   "description": "Clipboard: read | write | clear.",
+   "params": {
+    "action": {
+     "required": true
+    },
+    "text": {
+     "required": false
+    }
+   },
+   "plugin": "computer"
+  },
+  {
+   "command": "close_app",
+   "description": "Close an application politely (it may ask to save)",
+   "params": {
+    "force": {
+     "required": false
+    },
+    "name": {
+     "required": true
+    }
+   },
+   "plugin": "computer"
+  },
+  {
+   "command": "find_app",
+   "description": "List installed apps matching a name (Start Menu on Windows).",
+   "params": {
+    "query": {
+     "required": false
+    }
+   },
+   "plugin": "computer"
+  },
+  {
+   "command": "hotkey",
+   "description": "Press a keyboard shortcut, e.g",
+   "params": {
+    "keys": {
+     "required": true
+    }
+   },
+   "plugin": "computer"
+  },
+  {
+   "command": "list_windows",
+   "description": "List open windows.",
+   "params": {},
+   "plugin": "computer"
+  },
+  {
+   "command": "mouse",
+   "description": "Move the mouse and optionally click at screen coordinates.",
+   "params": {
+    "click": {
+     "required": false
+    },
+    "x": {
+     "required": true
+    },
+    "y": {
+     "required": true
+    }
+   },
+   "plugin": "computer"
+  },
+  {
+   "command": "open_app",
+   "description": "Launch an application by name, then verify it is running.",
+   "params": {
+    "name": {
+     "required": true
+    }
+   },
+   "plugin": "computer"
+  },
+  {
+   "command": "power",
+   "description": "Power: lock | sleep | restart | shutdown | cancel",
+   "params": {
+    "action": {
+     "required": true
+    }
+   },
+   "plugin": "computer"
+  },
+  {
+   "command": "screenshot",
+   "description": "Capture the screen to a PNG file (requires screen-capture permission and setting).",
+   "params": {
+    "folder": {
+     "required": false
+    }
+   },
+   "plugin": "computer"
+  },
+  {
+   "command": "type_text",
+   "description": "Type text into the active window.",
+   "params": {
+    "text": {
+     "required": true
+    }
+   },
+   "plugin": "computer"
+  },
+  {
+   "command": "volume",
+   "description": "Volume control: get | up | down | set | mute | unmute.",
+   "params": {
+    "action": {
+     "required": true
+    },
+    "level": {
+     "required": false
+    }
+   },
+   "plugin": "computer"
+  },
+  {
+   "command": "window",
+   "description": "Act on a window found by (part of) its title: focus, minimize, maximize, restore or close.",
+   "params": {
+    "action": {
+     "required": false
+    },
+    "title": {
+     "required": true
+    }
+   },
+   "plugin": "computer"
+  }
+ ],
+ "excel": [
+  {
+   "command": "add_formula",
+   "description": "Put a formula in a cell, e.g",
+   "params": {
+    "cell": {
+     "required": true
+    },
+    "formula": {
+     "required": true
+    },
+    "path": {
+     "required": true
+    },
+    "sheet": {
+     "required": false
+    }
+   },
+   "plugin": "excel"
+  },
+  {
+   "command": "add_sheet",
+   "description": "Add a worksheet.",
+   "params": {
+    "name": {
+     "required": true
+    },
+    "path": {
+     "required": true
+    }
+   },
+   "plugin": "excel"
+  },
+  {
+   "command": "calculate",
+   "description": "Calculate sum | average | min | max | count over a numeric range (computed here, not by Excel).",
+   "params": {
+    "op": {
+     "required": true
+    },
+    "path": {
+     "required": true
+    },
+    "range": {
+     "required": true
+    },
+    "sheet": {
+     "required": false
+    }
+   },
+   "plugin": "excel"
+  },
+  {
+   "command": "create",
+   "description": "Create a workbook, optionally with a first sheet of rows (list of lists)",
+   "params": {
+    "path": {
+     "required": true
+    },
+    "rows": {
+     "required": false
+    },
+    "sheet": {
+     "required": false
+    }
+   },
+   "plugin": "excel"
+  },
+  {
+   "command": "create_chart",
+   "description": "Create a chart (bar | line | pie) from a data range whose first row is the header.",
+   "params": {
+    "anchor": {
+     "required": false
+    },
+    "chart": {
+     "required": false
+    },
+    "data_range": {
+     "required": true
+    },
+    "path": {
+     "required": true
+    },
+    "sheet": {
+     "required": false
+    },
+    "title": {
+     "required": false
+    }
+   },
+   "plugin": "excel"
+  },
+  {
+   "command": "create_table",
+   "description": "Turn a range (with a header row) into an Excel table.",
+   "params": {
+    "name": {
+     "required": true
+    },
+    "path": {
+     "required": true
+    },
+    "range": {
+     "required": true
+    },
+    "sheet": {
+     "required": false
+    }
+   },
+   "plugin": "excel"
+  },
+  {
+   "command": "format_cells",
+   "description": "Format a range: bold, fill colour (hex), number format, column width.",
+   "params": {
+    "bold": {
+     "required": false
+    },
+    "fill": {
+     "required": false
+    },
+    "number_format": {
+     "required": false
+    },
+    "path": {
+     "required": true
+    },
+    "range": {
+     "required": true
+    },
+    "sheet": {
+     "required": false
+    },
+    "width": {
+     "required": false
+    }
+   },
+   "plugin": "excel"
+  },
+  {
+   "command": "get_cell",
+   "description": "Get one cell's value.",
+   "params": {
+    "cell": {
+     "required": true
+    },
+    "path": {
+     "required": true
+    },
+    "sheet": {
+     "required": false
+    }
+   },
+   "plugin": "excel"
+  },
+  {
+   "command": "info",
+   "description": "Sheet names and used range for each sheet.",
+   "params": {
+    "path": {
+     "required": true
+    }
+   },
+   "plugin": "excel"
+  },
+  {
+   "command": "open",
+   "description": "Open a workbook in Excel.",
+   "params": {
+    "path": {
+     "required": true
+    }
+   },
+   "plugin": "excel"
+  },
+  {
+   "command": "read_sheet",
+   "description": "Read a range of values (default: the used range, up to 200 rows).",
+   "params": {
+    "path": {
+     "required": true
+    },
+    "range": {
+     "required": false
+    },
+    "sheet": {
+     "required": false
+    },
+    "show_formulas": {
+     "required": false
+    }
+   },
+   "plugin": "excel"
+  },
+  {
+   "command": "save_as",
+   "description": "Save a copy under a new name",
+   "params": {
+    "dest": {
+     "required": true
+    },
+    "path": {
+     "required": true
+    }
+   },
+   "plugin": "excel"
+  },
+  {
+   "command": "write_range",
+   "description": "Write rows (list of lists) starting at a cell",
+   "params": {
+    "path": {
+     "required": true
+    },
+    "rows": {
+     "required": true
+    },
+    "sheet": {
+     "required": false
+    },
+    "start_cell": {
+     "required": false
+    }
+   },
+   "plugin": "excel"
+  }
+ ],
+ "files": [
+  {
+   "command": "copy",
+   "description": "Copy a file or folder",
+   "params": {
+    "destination": {
+     "required": true
+    },
+    "overwrite": {
+     "required": false
+    },
+    "source": {
+     "required": true
+    }
+   },
+   "plugin": "files"
+  },
+  {
+   "command": "delete",
+   "description": "Delete a file or folder (goes to the Recycle Bin / trash so it can be restored)",
+   "params": {
+    "path": {
+     "required": true
+    }
+   },
+   "plugin": "files"
+  },
+  {
+   "command": "info",
+   "description": "Describe a file or folder (size, dates, item count).",
+   "params": {
+    "path": {
+     "required": true
+    }
+   },
+   "plugin": "files"
+  },
+  {
+   "command": "make_folder",
+   "description": "Create a folder (and parents).",
+   "params": {
+    "path": {
+     "required": true
+    }
+   },
+   "plugin": "files"
+  },
+  {
+   "command": "move",
+   "description": "Move a file or folder",
+   "params": {
+    "destination": {
+     "required": true
+    },
+    "overwrite": {
+     "required": false
+    },
+    "source": {
+     "required": true
+    }
+   },
+   "plugin": "files"
+  },
+  {
+   "command": "open",
+   "description": "Open a file or folder with its default application.",
+   "params": {
+    "path": {
+     "required": true
+    }
+   },
+   "plugin": "files"
+  },
+  {
+   "command": "organise",
+   "description": "Organise a folder's loose files into sub-folders by type or by month",
+   "params": {
+    "by": {
+     "required": false
+    },
+    "dry_run": {
+     "required": false
+    },
+    "folder": {
+     "required": true
+    }
+   },
+   "plugin": "files"
+  },
+  {
+   "command": "recent",
+   "description": "Recently modified files in the user's folders.",
+   "params": {
+    "days": {
+     "required": false
+    },
+    "kind": {
+     "required": false
+    },
+    "limit": {
+     "required": false
+    }
+   },
+   "plugin": "files"
+  },
+  {
+   "command": "rename",
+   "description": "Rename a file or folder (same location).",
+   "params": {
+    "new_name": {
+     "required": true
+    },
+    "path": {
+     "required": true
+    }
+   },
+   "plugin": "files"
+  },
+  {
+   "command": "search",
+   "description": "Search files/folders by name in Documents, Desktop, Downloads etc",
+   "params": {
+    "folder": {
+     "required": false
+    },
+    "folders_only": {
+     "required": false
+    },
+    "kind": {
+     "required": false
+    },
+    "limit": {
+     "required": false
+    },
+    "query": {
+     "required": true
+    }
+   },
+   "plugin": "files"
+  },
+  {
+   "command": "undo_organise",
+   "description": "Reverse the most recent organise.",
+   "params": {},
+   "plugin": "files"
+  }
+ ],
+ "finance": [
+  {
+   "command": "add_entry",
+   "description": "Record an expense, income or savings deposit (manually entered).",
+   "params": {
+    "amount": {
+     "required": true
+    },
+    "category": {
+     "required": false
+    },
+    "date": {
+     "required": false
+    },
+    "kind": {
+     "required": true
+    },
+    "note": {
+     "required": false
+    }
+   },
+   "plugin": "finance"
+  },
+  {
+   "command": "add_holding",
+   "description": "Record a holding you track manually: bank_account, fd, rd, mutual_fund, sip, stock, gold, ppf, other",
+   "params": {
+    "amount": {
+     "required": true
+    },
+    "kind": {
+     "required": true
+    },
+    "maturity": {
+     "required": false
+    },
+    "monthly": {
+     "required": false
+    },
+    "name": {
+     "required": true
+    },
+    "note": {
+     "required": false
+    },
+    "rate": {
+     "required": false
+    },
+    "start": {
+     "required": false
+    }
+   },
+   "plugin": "finance"
+  },
+  {
+   "command": "dashboard",
+   "description": "Dashboard data: savings, month summary, goals, holdings total.",
+   "params": {},
+   "plugin": "finance"
+  },
+  {
+   "command": "delete_entry",
+   "description": "Delete a ledger entry.",
+   "params": {
+    "id": {
+     "required": true
+    }
+   },
+   "plugin": "finance"
+  },
+  {
+   "command": "delete_holding",
+   "description": "Delete a holding.",
+   "params": {
+    "id": {
+     "required": true
+    }
+   },
+   "plugin": "finance"
+  },
+  {
+   "command": "edit_entry",
+   "description": "Edit a ledger entry.",
+   "params": {
+    "amount": {
+     "required": false
+    },
+    "category": {
+     "required": false
+    },
+    "date": {
+     "required": false
+    },
+    "id": {
+     "required": true
+    },
+    "note": {
+     "required": false
+    }
+   },
+   "plugin": "finance"
+  },
+  {
+   "command": "fx",
+   "description": "Foreign-exchange rate (European Central Bank via Frankfurter).",
+   "params": {
+    "base": {
+     "required": false
+    },
+    "targets": {
+     "required": false
+    }
+   },
+   "plugin": "finance"
+  },
+  {
+   "command": "goal",
+   "description": "Create a savings goal, or add progress to one.",
+   "params": {
+    "add_saved": {
+     "required": false
+    },
+    "deadline": {
+     "required": false
+    },
+    "name": {
+     "required": true
+    },
+    "target": {
+     "required": false
+    }
+   },
+   "plugin": "finance"
+  },
+  {
+   "command": "goals",
+   "description": "List savings goals.",
+   "params": {},
+   "plugin": "finance"
+  },
+  {
+   "command": "holdings",
+   "description": "Portfolio overview of all manually tracked holdings with projected maturity values (estimates).",
+   "params": {},
+   "plugin": "finance"
+  },
+  {
+   "command": "list_entries",
+   "description": "List ledger entries, newest first.",
+   "params": {
+    "category": {
+     "required": false
+    },
+    "kind": {
+     "required": false
+    },
+    "limit": {
+     "required": false
+    },
+    "month": {
+     "required": false
+    }
+   },
+   "plugin": "finance"
+  },
+  {
+   "command": "markets",
+   "description": "Major index snapshot (S&P 500, Nasdaq, Dow, Nikkei, DAX, FTSE).",
+   "params": {},
+   "plugin": "finance"
+  },
+  {
+   "command": "news",
+   "description": "Finance news headlines.",
+   "params": {},
+   "plugin": "finance"
+  },
+  {
+   "command": "quote",
+   "description": "Latest quote for a stock/ETF/index symbol (Stooq, delayed)",
+   "params": {
+    "symbol": {
+     "required": true
+    }
+   },
+   "plugin": "finance"
+  },
+  {
+   "command": "set_budget",
+   "description": "Set a monthly budget for a category.",
+   "params": {
+    "category": {
+     "required": true
+    },
+    "monthly_limit": {
+     "required": true
+    }
+   },
+   "plugin": "finance"
+  },
+  {
+   "command": "summary",
+   "description": "Monthly summary: income, expenses, savings, net, spending by category and budget status.",
+   "params": {
+    "month": {
+     "required": false
+    }
+   },
+   "plugin": "finance"
+  },
+  {
+   "command": "update_holding",
+   "description": "Update a holding's value or details.",
+   "params": {
+    "amount": {
+     "required": false
+    },
+    "id": {
+     "required": true
+    },
+    "maturity": {
+     "required": false
+    },
+    "monthly": {
+     "required": false
+    },
+    "note": {
+     "required": false
+    },
+    "rate": {
+     "required": false
+    }
+   },
+   "plugin": "finance"
+  }
+ ],
+ "gmail": [
+  {
+   "command": "connect",
+   "description": "Sign in to Google (opens your browser once).",
+   "params": {},
+   "plugin": "gmail"
+  },
+  {
+   "command": "digest",
+   "description": "Summarise today's/this week's important mail in one go.",
+   "params": {
+    "limit": {
+     "required": false
+    },
+    "query": {
+     "required": false
+    }
+   },
+   "plugin": "gmail"
+  },
+  {
+   "command": "disconnect",
+   "description": "Forget the stored Google sign-in.",
+   "params": {},
+   "plugin": "gmail"
+  },
+  {
+   "command": "draft",
+   "description": "Save an email draft in Gmail (does NOT send).",
+   "params": {
+    "body": {
+     "required": true
+    },
+    "subject": {
+     "required": true
+    },
+    "to": {
+     "required": true
+    }
+   },
+   "plugin": "gmail"
+  },
+  {
+   "command": "from_sender",
+   "description": "Find mail from a sender.",
+   "params": {
+    "limit": {
+     "required": false
+    },
+    "sender": {
+     "required": true
+    }
+   },
+   "plugin": "gmail"
+  },
+  {
+   "command": "important",
+   "description": "Messages Gmail marks important or starred and unread.",
+   "params": {
+    "limit": {
+     "required": false
+    }
+   },
+   "plugin": "gmail"
+  },
+  {
+   "command": "inbox",
+   "description": "Show recent inbox messages.",
+   "params": {
+    "limit": {
+     "required": false
+    },
+    "unread_only": {
+     "required": false
+    }
+   },
+   "plugin": "gmail"
+  },
+  {
+   "command": "organise",
+   "description": "Organise a message: mark_read | mark_unread | star | unstar | archive | trash (recoverable for 30 days).",
+   "params": {
+    "action": {
+     "required": true
+    },
+    "id": {
+     "required": true
+    }
+   },
+   "plugin": "gmail"
+  },
+  {
+   "command": "read",
+   "description": "Read one email in full (by id).",
+   "params": {
+    "id": {
+     "required": true
+    },
+    "max_chars": {
+     "required": false
+    }
+   },
+   "plugin": "gmail"
+  },
+  {
+   "command": "reply",
+   "description": "Reply to an email (by id)",
+   "params": {
+    "body": {
+     "required": true
+    },
+    "id": {
+     "required": true
+    },
+    "save_draft": {
+     "required": false
+    }
+   },
+   "plugin": "gmail"
+  },
+  {
+   "command": "search",
+   "description": "Search mail using Gmail search syntax (from:, subject:, is:unread, newer_than:7d \u2026).",
+   "params": {
+    "limit": {
+     "required": false
+    },
+    "query": {
+     "required": true
+    }
+   },
+   "plugin": "gmail"
+  },
+  {
+   "command": "send",
+   "description": "Send an email",
+   "params": {
+    "body": {
+     "required": true
+    },
+    "cc": {
+     "required": false
+    },
+    "subject": {
+     "required": true
+    },
+    "to": {
+     "required": true
+    }
+   },
+   "plugin": "gmail"
+  },
+  {
+   "command": "summarise",
+   "description": "Summarise an email",
+   "params": {
+    "id": {
+     "required": true
+    }
+   },
+   "plugin": "gmail"
+  }
+ ],
+ "instagram": [
+  {
+   "command": "draft_message",
+   "description": "Prepare a direct-message draft: copies the text to the clipboard and opens your Instagram inbox",
+   "params": {
+    "text": {
+     "required": true
+    },
+    "username": {
+     "required": false
+    }
+   },
+   "plugin": "instagram"
+  },
+  {
+   "command": "open_instagram",
+   "description": "Open Instagram in the browser.",
+   "params": {},
+   "plugin": "instagram"
+  },
+  {
+   "command": "open_profile",
+   "description": "Open a public profile page by username.",
+   "params": {
+    "username": {
+     "required": true
+    }
+   },
+   "plugin": "instagram"
+  },
+  {
+   "command": "search",
+   "description": "Search Instagram for a name (opens the search in your browser).",
+   "params": {
+    "query": {
+     "required": true
+    }
+   },
+   "plugin": "instagram"
+  }
+ ],
+ "news": [
+  {
+   "command": "add_feed",
+   "description": "Add a custom RSS/Atom feed to a category.",
+   "params": {
+    "category": {
+     "required": true
+    },
+    "name": {
+     "required": true
+    },
+    "url": {
+     "required": true
+    }
+   },
+   "plugin": "news"
+  },
+  {
+   "command": "briefing",
+   "description": "A concise, source-backed briefing: daily, weekly, or for one category",
+   "params": {
+    "category": {
+     "required": false
+    },
+    "kind": {
+     "required": false
+    },
+    "per_category": {
+     "required": false
+    }
+   },
+   "plugin": "news"
+  },
+  {
+   "command": "compare",
+   "description": "Compare how several stored articles (ids) or URLs report the same story.",
+   "params": {
+    "articles": {
+     "required": true
+    },
+    "focus": {
+     "required": false
+    }
+   },
+   "plugin": "news"
+  },
+  {
+   "command": "headlines",
+   "description": "Latest headlines, optionally for one category",
+   "params": {
+    "category": {
+     "required": false
+    },
+    "limit": {
+     "required": false
+    }
+   },
+   "plugin": "news"
+  },
+  {
+   "command": "history",
+   "description": "Reading history.",
+   "params": {
+    "limit": {
+     "required": false
+    }
+   },
+   "plugin": "news"
+  },
+  {
+   "command": "mark_read",
+   "description": "Mark an article as read (reading history).",
+   "params": {
+    "id": {
+     "required": true
+    }
+   },
+   "plugin": "news"
+  },
+  {
+   "command": "refresh",
+   "description": "Fetch the latest items for one category (or all) now.",
+   "params": {
+    "category": {
+     "required": false
+    }
+   },
+   "plugin": "news"
+  },
+  {
+   "command": "remove_feed",
+   "description": "Remove a feed by URL.",
+   "params": {
+    "url": {
+     "required": true
+    }
+   },
+   "plugin": "news"
+  },
+  {
+   "command": "save",
+   "description": "Save or bookmark an article (id) for later.",
+   "params": {
+    "bookmark": {
+     "required": false
+    },
+    "id": {
+     "required": true
+    },
+    "unsave": {
+     "required": false
+    }
+   },
+   "plugin": "news"
+  },
+  {
+   "command": "saved",
+   "description": "Saved or bookmarked articles.",
+   "params": {
+    "bookmarked": {
+     "required": false
+    }
+   },
+   "plugin": "news"
+  },
+  {
+   "command": "search",
+   "description": "Search stored news by keyword.",
+   "params": {
+    "category": {
+     "required": false
+    },
+    "limit": {
+     "required": false
+    },
+    "query": {
+     "required": true
+    }
+   },
+   "plugin": "news"
+  },
+  {
+   "command": "sources",
+   "description": "Status of every news feed.",
+   "params": {},
+   "plugin": "news"
+  },
+  {
+   "command": "summarise",
+   "description": "Summarise a stored article (by id) or any article URL.",
+   "params": {
+    "article": {
+     "required": true
+    }
+   },
+   "plugin": "news"
+  }
+ ],
+ "powerpoint": [
+  {
+   "command": "add_slide",
+   "description": "Add a slide (layout: title | title_content | section | two_content | comparison | title_only | blank).",
+   "params": {
+    "bullets": {
+     "required": false
+    },
+    "image": {
+     "required": false
+    },
+    "layout": {
+     "required": false
+    },
+    "notes": {
+     "required": false
+    },
+    "path": {
+     "required": true
+    },
+    "title": {
+     "required": true
+    }
+   },
+   "plugin": "powerpoint"
+  },
+  {
+   "command": "create",
+   "description": "Create a presentation from a title and slides: [{title, bullets[], notes, image, layout}]",
+   "params": {
+    "path": {
+     "required": true
+    },
+    "slides": {
+     "required": false
+    },
+    "subtitle": {
+     "required": false
+    },
+    "title": {
+     "required": true
+    }
+   },
+   "plugin": "powerpoint"
+  },
+  {
+   "command": "edit_slide_text",
+   "description": "Replace text on a slide (find \u2192 replace).",
+   "params": {
+    "find": {
+     "required": true
+    },
+    "path": {
+     "required": true
+    },
+    "replace": {
+     "required": true
+    },
+    "slide": {
+     "required": true
+    }
+   },
+   "plugin": "powerpoint"
+  },
+  {
+   "command": "generate",
+   "description": "Generate a structured presentation on a topic with your AI provider (only the topic is sent).",
+   "params": {
+    "path": {
+     "required": true
+    },
+    "slides": {
+     "required": false
+    },
+    "topic": {
+     "required": true
+    }
+   },
+   "plugin": "powerpoint"
+  },
+  {
+   "command": "insert_image",
+   "description": "Insert an image on a slide.",
+   "params": {
+    "image": {
+     "required": true
+    },
+    "path": {
+     "required": true
+    },
+    "slide": {
+     "required": true
+    },
+    "width_inches": {
+     "required": false
+    }
+   },
+   "plugin": "powerpoint"
+  },
+  {
+   "command": "open",
+   "description": "Open a presentation in PowerPoint.",
+   "params": {
+    "path": {
+     "required": true
+    }
+   },
+   "plugin": "powerpoint"
+  },
+  {
+   "command": "read",
+   "description": "List slides with their titles and text.",
+   "params": {
+    "path": {
+     "required": true
+    }
+   },
+   "plugin": "powerpoint"
+  },
+  {
+   "command": "save_as",
+   "description": "Save a copy under a new name",
+   "params": {
+    "dest": {
+     "required": true
+    },
+    "path": {
+     "required": true
+    }
+   },
+   "plugin": "powerpoint"
+  }
+ ],
+ "productivity": [
+  {
+   "command": "add_event",
+   "description": "Add a calendar event (local calendar, mirrored to Google Calendar when connected).",
+   "params": {
+    "duration_minutes": {
+     "required": false
+    },
+    "location": {
+     "required": false
+    },
+    "notes": {
+     "required": false
+    },
+    "remind_minutes": {
+     "required": false
+    },
+    "start": {
+     "required": true
+    },
+    "title": {
+     "required": true
+    }
+   },
+   "plugin": "productivity"
+  },
+  {
+   "command": "add_reminder",
+   "description": "Create a reminder",
+   "params": {
+    "announce": {
+     "required": false
+    },
+    "recurrence": {
+     "required": false
+    },
+    "text": {
+     "required": true
+    },
+    "when": {
+     "required": true
+    }
+   },
+   "plugin": "productivity"
+  },
+  {
+   "command": "add_task",
+   "description": "Create a task",
+   "params": {
+    "category": {
+     "required": false
+    },
+    "due": {
+     "required": false
+    },
+    "notes": {
+     "required": false
+    },
+    "priority": {
+     "required": false
+    },
+    "title": {
+     "required": true
+    }
+   },
+   "plugin": "productivity"
+  },
+  {
+   "command": "complete_task",
+   "description": "Mark a task completed (by id).",
+   "params": {
+    "id": {
+     "required": true
+    }
+   },
+   "plugin": "productivity"
+  },
+  {
+   "command": "daily_briefing",
+   "description": "Daily briefing: today's tasks, reminders, events, notifications, news and system status.",
+   "params": {},
+   "plugin": "productivity"
+  },
+  {
+   "command": "delete_event",
+   "description": "Delete a local calendar event.",
+   "params": {
+    "id": {
+     "required": true
+    }
+   },
+   "plugin": "productivity"
+  },
+  {
+   "command": "delete_reminder",
+   "description": "Delete a reminder (by id).",
+   "params": {
+    "id": {
+     "required": true
+    }
+   },
+   "plugin": "productivity"
+  },
+  {
+   "command": "delete_task",
+   "description": "Delete a task (by id).",
+   "params": {
+    "id": {
+     "required": true
+    }
+   },
+   "plugin": "productivity"
+  },
+  {
+   "command": "edit_event",
+   "description": "Edit a local calendar event.",
+   "params": {
+    "id": {
+     "required": true
+    },
+    "location": {
+     "required": false
+    },
+    "start": {
+     "required": false
+    },
+    "title": {
+     "required": false
+    }
+   },
+   "plugin": "productivity"
+  },
+  {
+   "command": "edit_reminder",
+   "description": "Edit a reminder's text, time or recurrence.",
+   "params": {
+    "id": {
+     "required": true
+    },
+    "recurrence": {
+     "required": false
+    },
+    "text": {
+     "required": false
+    },
+    "when": {
+     "required": false
+    }
+   },
+   "plugin": "productivity"
+  },
+  {
+   "command": "edit_task",
+   "description": "Edit a task's title, deadline, priority, category or notes.",
+   "params": {
+    "category": {
+     "required": false
+    },
+    "due": {
+     "required": false
+    },
+    "id": {
+     "required": true
+    },
+    "notes": {
+     "required": false
+    },
+    "priority": {
+     "required": false
+    },
+    "title": {
+     "required": false
+    }
+   },
+   "plugin": "productivity"
+  },
+  {
+   "command": "google_connect",
+   "description": "Begin Google Calendar sign-in; returns a URL to open in the browser.",
+   "params": {},
+   "plugin": "productivity"
+  },
+  {
+   "command": "list_reminders",
+   "description": "List reminders",
+   "params": {
+    "status": {
+     "required": false
+    }
+   },
+   "plugin": "productivity"
+  },
+  {
+   "command": "list_tasks",
+   "description": "List tasks",
+   "params": {
+    "category": {
+     "required": false
+    },
+    "query": {
+     "required": false
+    },
+    "status": {
+     "required": false
+    }
+   },
+   "plugin": "productivity"
+  },
+  {
+   "command": "upcoming_events",
+   "description": "Show events in the next N days (local + Google Calendar if connected).",
+   "params": {
+    "days": {
+     "required": false
+    },
+    "query": {
+     "required": false
+    }
+   },
+   "plugin": "productivity"
+  }
+ ],
+ "research": [
+  {
+   "command": "delete_report",
+   "description": "Delete a stored report.",
+   "params": {
+    "id": {
+     "required": true
+    }
+   },
+   "plugin": "research"
+  },
+  {
+   "command": "export",
+   "description": "Export a report to a Markdown file.",
+   "params": {
+    "id": {
+     "required": true
+    }
+   },
+   "plugin": "research"
+  },
+  {
+   "command": "get_report",
+   "description": "Open a stored research report by id.",
+   "params": {
+    "id": {
+     "required": true
+    }
+   },
+   "plugin": "research"
+  },
+  {
+   "command": "history",
+   "description": "Past research reports.",
+   "params": {
+    "limit": {
+     "required": false
+    }
+   },
+   "plugin": "research"
+  },
+  {
+   "command": "research",
+   "description": "Research a question across multiple web sources and produce a structured, cited report.",
+   "params": {
+    "depth": {
+     "required": false
+    },
+    "format": {
+     "required": false
+    },
+    "question": {
+     "required": true
+    }
+   },
+   "plugin": "research"
+  }
+ ],
+ "search": [
+  {
+   "command": "open_result",
+   "description": "Open a search result by running its attached action.",
+   "params": {
+    "args": {
+     "required": false
+    },
+    "command": {
+     "required": true
+    },
+    "plugin": {
+     "required": true
+    }
+   },
+   "plugin": "search"
+  },
+  {
+   "command": "search",
+   "description": "Search everywhere (or limit with scopes).",
+   "params": {
+    "limit": {
+     "required": false
+    },
+    "query": {
+     "required": true
+    },
+    "scopes": {
+     "required": false
+    }
+   },
+   "plugin": "search"
+  }
+ ],
+ "spotify": [
+  {
+   "command": "album_info",
+   "description": "Album details and tracklist.",
+   "params": {
+    "name": {
+     "required": true
+    }
+   },
+   "plugin": "spotify"
+  },
+  {
+   "command": "artist_info",
+   "description": "Artist details and top tracks.",
+   "params": {
+    "name": {
+     "required": true
+    }
+   },
+   "plugin": "spotify"
+  },
+  {
+   "command": "connect",
+   "description": "Sign in to Spotify (opens your browser once).",
+   "params": {},
+   "plugin": "spotify"
+  },
+  {
+   "command": "devices",
+   "description": "Spotify playback devices.",
+   "params": {},
+   "plugin": "spotify"
+  },
+  {
+   "command": "now_playing",
+   "description": "What is playing right now (track, artist, album, artwork, progress, volume, device).",
+   "params": {},
+   "plugin": "spotify"
+  },
+  {
+   "command": "play",
+   "description": "Search and play: a track, album, artist or playlist by name.",
+   "params": {
+    "query": {
+     "required": true
+    },
+    "type": {
+     "required": false
+    }
+   },
+   "plugin": "spotify"
+  },
+  {
+   "command": "play_playlist",
+   "description": "Play one of your playlists by (part of) its name.",
+   "params": {
+    "name": {
+     "required": true
+    }
+   },
+   "plugin": "spotify"
+  },
+  {
+   "command": "playback",
+   "description": "Playback control: play (resume) | pause | next | previous | volume | seek | shuffle | repeat.",
+   "params": {
+    "action": {
+     "required": true
+    },
+    "mode": {
+     "required": false
+    },
+    "value": {
+     "required": false
+    }
+   },
+   "plugin": "spotify"
+  },
+  {
+   "command": "playlists",
+   "description": "Your playlists.",
+   "params": {
+    "limit": {
+     "required": false
+    }
+   },
+   "plugin": "spotify"
+  },
+  {
+   "command": "queue",
+   "description": "Add a track to the play queue.",
+   "params": {
+    "query": {
+     "required": true
+    }
+   },
+   "plugin": "spotify"
+  },
+  {
+   "command": "recently_played",
+   "description": "Recently played tracks.",
+   "params": {
+    "limit": {
+     "required": false
+    }
+   },
+   "plugin": "spotify"
+  },
+  {
+   "command": "search",
+   "description": "Search Spotify for tracks, albums, artists or playlists.",
+   "params": {
+    "limit": {
+     "required": false
+    },
+    "query": {
+     "required": true
+    },
+    "type": {
+     "required": false
+    }
+   },
+   "plugin": "spotify"
+  },
+  {
+   "command": "transfer",
+   "description": "Move playback to a device (by name).",
+   "params": {
+    "device": {
+     "required": true
+    }
+   },
+   "plugin": "spotify"
+  }
+ ],
+ "sysmon": [
+  {
+   "command": "end_process",
+   "description": "End a process by PID",
+   "params": {
+    "pid": {
+     "required": true
+    }
+   },
+   "plugin": "sysmon"
+  },
+  {
+   "command": "history_points",
+   "description": "Recent CPU/RAM/network samples for graphs (about 10 s apart).",
+   "params": {
+    "points": {
+     "required": false
+    }
+   },
+   "plugin": "sysmon"
+  },
+  {
+   "command": "processes",
+   "description": "Top running processes by CPU or memory, optionally filtered by name.",
+   "params": {
+    "limit": {
+     "required": false
+    },
+    "name": {
+     "required": false
+    },
+    "sort": {
+     "required": false
+    }
+   },
+   "plugin": "sysmon"
+  },
+  {
+   "command": "snapshot",
+   "description": "Full snapshot: CPU, RAM, disks, GPU, battery, network, uptime, temperatures.",
+   "params": {},
+   "plugin": "sysmon"
+  }
+ ],
+ "utilities": [
+  {
+   "command": "calculate",
+   "description": "Evaluate an arithmetic expression (supports + - * / ** % of, sqrt, sin, log, pi\u2026).",
+   "params": {
+    "expression": {
+     "required": true
+    }
+   },
+   "plugin": "utilities"
+  },
+  {
+   "command": "connectivity",
+   "description": "Check internet connectivity and DNS.",
+   "params": {},
+   "plugin": "utilities"
+  },
+  {
+   "command": "convert",
+   "description": "Convert between units (length, mass, volume, temperature, time, data, speed, area).",
+   "params": {
+    "from_unit": {
+     "required": true
+    },
+    "to_unit": {
+     "required": true
+    },
+    "value": {
+     "required": true
+    }
+   },
+   "plugin": "utilities"
+  },
+  {
+   "command": "currency",
+   "description": "Convert currency using European Central Bank reference rates (Frankfurter API).",
+   "params": {
+    "amount": {
+     "required": true
+    },
+    "from_currency": {
+     "required": true
+    },
+    "to_currency": {
+     "required": true
+    }
+   },
+   "plugin": "utilities"
+  },
+  {
+   "command": "date_math",
+   "description": "Calendar utility: weekday of a date, days between dates, or add days.",
+   "params": {
+    "add_days": {
+     "required": false
+    },
+    "date": {
+     "required": false
+    },
+    "other_date": {
+     "required": false
+    }
+   },
+   "plugin": "utilities"
+  },
+  {
+   "command": "time_now",
+   "description": "Current date and time, optionally in another city or time zone.",
+   "params": {
+    "zone": {
+     "required": false
+    }
+   },
+   "plugin": "utilities"
+  },
+  {
+   "command": "weather",
+   "description": "Current weather and a 3-day forecast",
+   "params": {
+    "city": {
+     "required": false
+    }
+   },
+   "plugin": "utilities"
+  },
+  {
+   "command": "world_clocks",
+   "description": "Times in several cities at once.",
+   "params": {
+    "zones": {
+     "required": false
+    }
+   },
+   "plugin": "utilities"
+  }
+ ],
+ "vision": [
+  {
+   "command": "capture",
+   "description": "Take one screenshot now (only when screen capture is enabled) and save it.",
+   "params": {},
+   "plugin": "vision"
+  },
+  {
+   "command": "describe_image",
+   "description": "Describe or answer a question about an image file using an AI vision model (asks you first).",
+   "params": {
+    "path": {
+     "required": true
+    },
+    "question": {
+     "required": false
+    }
+   },
+   "plugin": "vision"
+  },
+  {
+   "command": "describe_screen",
+   "description": "Capture the screen and explain what's on it / identify visible UI elements (needs screen capture ON; asks befo",
+   "params": {
+    "question": {
+     "required": false
+    }
+   },
+   "plugin": "vision"
+  },
+  {
+   "command": "ocr",
+   "description": "Extract text from an image file",
+   "params": {
+    "path": {
+     "required": true
+    }
+   },
+   "plugin": "vision"
+  },
+  {
+   "command": "status",
+   "description": "Say whether screen capture is allowed and what OCR options exist.",
+   "params": {},
+   "plugin": "vision"
+  }
+ ],
+ "whatsapp": [
+  {
+   "command": "add_contact",
+   "description": "Save a contact (name \u2192 phone number) in GALAHAD's local address book.",
+   "params": {
+    "name": {
+     "required": true
+    },
+    "number": {
+     "required": true
+    }
+   },
+   "plugin": "whatsapp"
+  },
+  {
+   "command": "capabilities",
+   "description": "What this integration can and cannot do.",
+   "params": {},
+   "plugin": "whatsapp"
+  },
+  {
+   "command": "contacts",
+   "description": "Search the local contacts.",
+   "params": {
+    "query": {
+     "required": false
+    }
+   },
+   "plugin": "whatsapp"
+  },
+  {
+   "command": "delete_contact",
+   "description": "Delete a saved contact.",
+   "params": {
+    "name": {
+     "required": true
+    }
+   },
+   "plugin": "whatsapp"
+  },
+  {
+   "command": "draft",
+   "description": "Draft a WhatsApp message: opens the chat with the text pre-filled",
+   "params": {
+    "text": {
+     "required": true
+    },
+    "to": {
+     "required": true
+    }
+   },
+   "plugin": "whatsapp"
+  },
+  {
+   "command": "log",
+   "description": "Messages GALAHAD drafted or sent (local log only \u2014 WhatsApp chats themselves can't be read).",
+   "params": {},
+   "plugin": "whatsapp"
+  },
+  {
+   "command": "open_whatsapp",
+   "description": "Open WhatsApp.",
+   "params": {},
+   "plugin": "whatsapp"
+  },
+  {
+   "command": "send",
+   "description": "Send a WhatsApp message",
+   "params": {
+    "text": {
+     "required": true
+    },
+    "to": {
+     "required": true
+    }
+   },
+   "plugin": "whatsapp"
+  }
+ ],
+ "word": [
+  {
+   "command": "append",
+   "description": "Add text to the end of a document (style: paragraph | heading | bullet)",
+   "params": {
+    "path": {
+     "required": true
+    },
+    "style": {
+     "required": false
+    },
+    "text": {
+     "required": true
+    }
+   },
+   "plugin": "word"
+  },
+  {
+   "command": "create",
+   "description": "Create a Word document",
+   "params": {
+    "overwrite": {
+     "required": false
+    },
+    "path": {
+     "required": true
+    },
+    "text": {
+     "required": false
+    },
+    "title": {
+     "required": false
+    }
+   },
+   "plugin": "word"
+  },
+  {
+   "command": "draft",
+   "description": "Draft a new document on a topic with your AI provider (topic text only is sent; asks before replacing a file).",
+   "params": {
+    "length": {
+     "required": false
+    },
+    "path": {
+     "required": true
+    },
+    "topic": {
+     "required": true
+    }
+   },
+   "plugin": "word"
+  },
+  {
+   "command": "insert_after",
+   "description": "Insert text in a new paragraph after the first paragraph containing an anchor phrase.",
+   "params": {
+    "anchor": {
+     "required": true
+    },
+    "path": {
+     "required": true
+    },
+    "text": {
+     "required": true
+    }
+   },
+   "plugin": "word"
+  },
+  {
+   "command": "open",
+   "description": "Open a document in Word.",
+   "params": {
+    "path": {
+     "required": true
+    }
+   },
+   "plugin": "word"
+  },
+  {
+   "command": "read",
+   "description": "Read a document's text.",
+   "params": {
+    "max_chars": {
+     "required": false
+    },
+    "path": {
+     "required": true
+    }
+   },
+   "plugin": "word"
+  },
+  {
+   "command": "replace_text",
+   "description": "Find & replace text",
+   "params": {
+    "dry_run": {
+     "required": false
+    },
+    "find": {
+     "required": true
+    },
+    "path": {
+     "required": true
+    },
+    "replace": {
+     "required": true
+    }
+   },
+   "plugin": "word"
+  },
+  {
+   "command": "save_as",
+   "description": "Save a copy under a new name",
+   "params": {
+    "dest": {
+     "required": true
+    },
+    "path": {
+     "required": true
+    }
+   },
+   "plugin": "word"
+  },
+  {
+   "command": "search",
+   "description": "Search a document for a phrase and show surrounding text.",
+   "params": {
+    "path": {
+     "required": true
+    },
+    "query": {
+     "required": true
+    }
+   },
+   "plugin": "word"
+  },
+  {
+   "command": "summarise",
+   "description": "Summarise a document",
+   "params": {
+    "path": {
+     "required": true
+    }
+   },
+   "plugin": "word"
+  }
+ ],
+ "youtube": [
+  {
+   "command": "control",
+   "description": "Control the video: play | pause | toggle | seek | volume | mute | unmute | speed.",
+   "params": {
+    "action": {
+     "required": true
+    },
+    "value": {
+     "required": false
+    }
+   },
+   "plugin": "youtube"
+  },
+  {
+   "command": "media_key",
+   "description": "Press the system media key (play/pause, next, previous, volume) \u2014 controls whatever app owns media.",
+   "params": {
+    "key": {
+     "required": true
+    }
+   },
+   "plugin": "youtube"
+  },
+  {
+   "command": "now_playing",
+   "description": "What video is open and its playback state (title, channel, time, volume, paused).",
+   "params": {},
+   "plugin": "youtube"
+  },
+  {
+   "command": "open_video",
+   "description": "Open a YouTube video by URL, or search-and-open the first result for a title.",
+   "params": {
+    "video": {
+     "required": true
+    }
+   },
+   "plugin": "youtube"
+  },
+  {
+   "command": "search",
+   "description": "Search YouTube",
+   "params": {
+    "limit": {
+     "required": false
+    },
+    "open": {
+     "required": false
+    },
+    "query": {
+     "required": true
+    }
+   },
+   "plugin": "youtube"
+  },
+  {
+   "command": "video_info",
+   "description": "Basic info about a video (title, channel, duration) from the Data API, yt-dlp, or the open tab.",
+   "params": {
+    "video": {
+     "required": true
+    }
+   },
+   "plugin": "youtube"
+  }
+ ]
+}

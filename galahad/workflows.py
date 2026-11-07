@@ -333,7 +333,7 @@ class WorkflowEngine:
         self.e.bus.publish("workflow.finished", {"run": rid, "name": name, "status": final, "error": error})
         if final == "failed":
             self.e.notifications.add(f"Workflow failed: {name}", error, "workflow", 2, "automation")
-        elif final == "completed" and origin != "user":
+        elif final == "completed" and (origin == "schedule" or origin.startswith("event:")):
             self.e.notifications.add(f"Workflow finished: {name}", "", "workflow", 1, "automation")
         self._cancels.pop(rid, None)
 

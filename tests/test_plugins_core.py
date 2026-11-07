@@ -166,9 +166,9 @@ def test_delete_needs_confirmation_and_protects_system_paths(full_engine, sandbo
     assert r.status == "awaiting_confirmation" and f.exists()          # nothing happened yet
     res = e.registry.approve(r.pending_id)
     assert res.ok and not f.exists()
-    for bad in ("/", "/etc", str(Path.home())):
+    for bad in ("/", "/etc", str(Path.home()), str(sandbox / "does-not-exist")):
         r = call(e, "files", "delete", path=bad)
-        assert e.registry.approve(r.pending_id).ok is False
+        assert not r.ok and r.status == "failed" and not r.pending_id          # refused up front, user never bothered
 
 
 def test_organise_dry_run_real_run_and_undo(full_engine, sandbox):
