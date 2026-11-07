@@ -255,3 +255,17 @@ def test_memory_commands(full_engine):
     assert f.status == "awaiting_confirmation"
     assert e.registry.approve(f.pending_id).ok
     assert call(e, "assistant", "recall", query="tea").data["memories"] == []
+
+
+def test_currency_success_and_unit_edge_cases(full_engine, monkeypatch):
+    e = full_engine
+
+    class R:
+        status_code = 200; content = b"x"
+        def json(self): return {"date": "2026-11-06", "rates": {"INR": 8810.0}}
+    monkeypatch.setattr(e.http, "get", lambda url, **kw: R())
+    r = call(e, "utilities", "currency", amount=100, from_currency="usd", to_currency="inr")
+    assert r.ok and "8,810.00 INR" in r.message and "2026-11-06" in r.message          # the rate's date is always shown
+    assert call(e, "utilities", "currency", amount=5, from_currency="usd", to_currency="usd").data["rate"] == 1.0
+    assert "0.5" in call(e, "utilities", "convert", value=30, from_unit="min", to_unit="hour").message
+    assert call(e, "utilities", "connectivity").ok                                       # reports online OR offline, never raises

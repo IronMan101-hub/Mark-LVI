@@ -26,7 +26,7 @@ preserved**; GALAHAD loads beside it and is optional (if it cannot start, MARK L
 
 ```bash
 python main.py                  # desktop app + tray + dashboard       python -m galahad serve   # headless
-python -m galahad doctor        # diagnose                              python -m pytest tests -q # 141 tests
+python -m galahad doctor        # diagnose                              python -m pytest tests -q # 142 tests
 ```
 
 ---
