@@ -193,9 +193,9 @@ class PluginContext:
         self._e.bus.publish(f"{self.plugin_id}.{topic}" if "." not in topic else topic, payload or {})
 
     def notify(self, title: str, body: str = "", category: str = "plugin", priority: int = 1,
-               dedupe_key: str = "") -> Optional[int]:
+               dedupe_key: str = "", dedupe_window: float = 300.0) -> Optional[int]:
         self.require("notify")
-        return self._e.notifications.add(title, body, category, priority, self.plugin_id, dedupe_key)
+        return self._e.notifications.add(title, body, category, priority, self.plugin_id, dedupe_key, dedupe_window)
 
     def say(self, text: str) -> None:
         """Ask the voice layer to speak (no-op when there is none)."""
