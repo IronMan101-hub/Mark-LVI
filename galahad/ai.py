@@ -7,6 +7,7 @@ needs an API key from its developer console, and the dashboard says so.
 """
 from __future__ import annotations
 
+import base64
 import json
 import re
 import time
@@ -132,7 +133,8 @@ class AIManager:
     # ── main entry ────────────────────────────────────────────────────
     def complete(self, prompt: str, *, system: str = "", purpose: str = "general", json_mode: bool = False,
                  max_tokens: Optional[int] = None, private: bool = False, origin: str = "core",
-                 messages: Optional[list] = None, provider: Optional[str] = None) -> AIResponse:
+                 messages: Optional[list] = None, provider: Optional[str] = None,
+                 images: Optional[list] = None) -> AIResponse:
         chain = [provider] if provider else self.order(purpose)
         if not chain:
             raise AIError("No AI provider is configured. Add an API key in Plugins → AI Providers "
@@ -146,7 +148,7 @@ class AIManager:
                 text, pt, ct = self._call(pid, cfg, prompt, system, history, json_mode,
                                           max_tokens or cfg["settings"].get("max_tokens") or self.settings.get("ai.max_tokens"),
                                           cfg["settings"].get("temperature") if cfg["settings"].get("temperature") is not None
-                                          else self.settings.get("ai.temperature"))
+                                          else self.settings.get("ai.temperature"), images or [])
                 self._record(pid, cfg["model"], purpose, pt, ct, True)
                 if private:
                     self._audit_private(pid, cfg["model"], origin, len(prompt))
@@ -195,7 +197,7 @@ class AIManager:
                         "VALUES(?,?,?,?,?,?,?)", (pid, model, purpose, pt, ct, int(ok), time.time()))
 
     # ── adapters ──────────────────────────────────────────────────────
-    def _call(self, pid, cfg, prompt, system, history, json_mode, max_tokens, temperature):
+    def _call(self, pid, cfg, prompt, system, history, json_mode, max_tokens, temperature, images=()):
         key = self.api_key(pid)
         kind = cfg["kind"]
         base = cfg["base_url"].rstrip("/")
@@ -205,7 +207,8 @@ class AIManager:
         if kind == "openai":
             msgs = ([{"role": "system", "content": system}] if system else []) + \
                    [{"role": m["role"] if m["role"] in ("user", "assistant") else "user", "content": m["content"]} for m in history] + \
-                   [{"role": "user", "content": prompt}]
+                   [{"role": "user", "content": prompt if not images else
+                     [{"type": "text", "text": prompt}] + [{"type": "image_url", "image_url": {"url": f"data:{m};base64,{base64.b64encode(b).decode()}"}} for m, b in images]}]
             body = {"model": cfg["model"], "messages": msgs, "temperature": temperature, "max_tokens": max_tokens}
             if json_mode and pid == "openai":
                 body["response_format"] = {"type": "json_object"}
@@ -217,7 +220,9 @@ class AIManager:
             return j["choices"][0]["message"]["content"] or "", u.get("prompt_tokens", 0), u.get("completion_tokens", 0)
         if kind == "anthropic":
             msgs = [{"role": m["role"], "content": m["content"]} for m in history if m["role"] in ("user", "assistant")]
-            msgs.append({"role": "user", "content": prompt})
+            msgs.append({"role": "user", "content": prompt if not images else
+                         [{"type": "image", "source": {"type": "base64", "media_type": m, "data": base64.b64encode(b).decode()}} for m, b in images]
+                         + [{"type": "text", "text": prompt}]})
             body = {"model": cfg["model"], "max_tokens": max_tokens, "temperature": min(1.0, temperature), "messages": msgs}
             if system:
                 body["system"] = system
@@ -231,7 +236,7 @@ class AIManager:
         if kind == "gemini":
             contents = [{"role": "model" if m["role"] == "assistant" else "user", "parts": [{"text": m["content"]}]}
                         for m in history if m["role"] in ("user", "assistant")]
-            contents.append({"role": "user", "parts": [{"text": prompt}]})
+            contents.append({"role": "user", "parts": [{"text": prompt}] + [{"inline_data": {"mime_type": m, "data": base64.b64encode(b).decode()}} for m, b in images]})
             gen = {"temperature": temperature, "maxOutputTokens": max_tokens}
             if json_mode:
                 gen["responseMimeType"] = "application/json"

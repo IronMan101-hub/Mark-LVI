@@ -208,16 +208,18 @@ class PluginContext:
         return self._e.registry.execute(plugin_id, command_name, args or {}, origin=f"plugin:{self.plugin_id}")
 
     def llm(self, prompt: str, *, system: str = "", purpose: str = "general", json_mode: bool = False,
-            private: bool = False, max_tokens: Optional[int] = None):
+            private: bool = False, max_tokens: Optional[int] = None, images: Optional[list] = None,
+            consented: bool = False):
         """Ask the configured AI provider. `private=True` marks content from the
         user's mail/files/finances/screen, which is refused unless the user has
-        enabled Privacy → share private data with AI (every such send is logged)."""
+        enabled Privacy → share private data with AI, or this exact send was just approved
+        through a confirmation prompt (`consented=True`). Every such send is logged."""
         self.require("ai.use")
-        if private and not self._e.settings.get("privacy.share_private_with_ai", False):
+        if private and not consented and not self._e.settings.get("privacy.share_private_with_ai", False):
             raise PluginError("This would send private content to an AI provider. Enable "
                               "Settings → Privacy → 'share private data with AI' to allow it.")
         return self._e.ai.complete(prompt, system=system, purpose=purpose, json_mode=json_mode,
-                                   max_tokens=max_tokens, private=private, origin=self.plugin_id)
+                                   max_tokens=max_tokens, private=private, origin=self.plugin_id, images=images)
 
     def http_get(self, url: str, **kw):
         self.require("network")
